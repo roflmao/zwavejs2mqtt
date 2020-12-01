@@ -1,4 +1,4 @@
-FROM node:erbium-stretch AS build
+FROM node:erbium-buster AS build
 USER root
 RUN apt-get update && apt-get install -y jq
 RUN mkdir -p /usr/local/lib/node_modules && chown node /usr/local/lib/node_modules
@@ -9,9 +9,6 @@ RUN git clone https://github.com/zwave-js/zwavejs2mqtt.git /home/node/zwavejs2mq
 RUN chown node:node -R /home/node/zwavejs2mqtt
 
 RUN yarn global add yalc
-
-#COPY --chown=node node-zwave-js /home/node/node-zwave-js
-#COPY --chown=node zwavejs2mqtt /home/node/zwavejs2mqtt
 
 USER node
 WORKDIR /home/node/node-zwave-js
