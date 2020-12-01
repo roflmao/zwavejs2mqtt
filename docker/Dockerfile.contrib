@@ -1,4 +1,4 @@
-FROM node:erbium-stretch AS build
+FROM node:erbium-buster AS build
 USER root
 RUN apt-get update && apt-get install -y jq
 RUN mkdir -p /usr/local/lib/node_modules && chown node /usr/local/lib/node_modules
