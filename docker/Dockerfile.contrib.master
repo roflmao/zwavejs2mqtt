@@ -2,10 +2,12 @@ FROM node:erbium-buster AS build
 USER root
 RUN apt-get update && apt-get install -y jq
 RUN mkdir -p /usr/local/lib/node_modules && chown node /usr/local/lib/node_modules
+ENV Z2M_BRANCH master
+ENV ZWJS_BRANCH master
 
-RUN git clone https://github.com/zwave-js/node-zwave-js.git /home/node/node-zwave-js
+RUN git clone -b ${ZWJS_BRANCH} https://github.com/zwave-js/node-zwave-js.git /home/node/node-zwave-js
 RUN chown node:node -R /home/node/node-zwave-js
-RUN git clone https://github.com/zwave-js/zwavejs2mqtt.git /home/node/zwavejs2mqtt
+RUN git clone -b ${Z2M_BRANCH} https://github.com/zwave-js/zwavejs2mqtt.git /home/node/zwavejs2mqtt
 RUN chown node:node -R /home/node/zwavejs2mqtt
 
 RUN yarn global add yalc
