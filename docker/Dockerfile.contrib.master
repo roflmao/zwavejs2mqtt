@@ -32,7 +32,7 @@ RUN yarn install --production --frozen-lockfile
 RUN mkdir my_dist
 RUN cp -Lr app.js package.json bin config dist hass lib public store views node_modules my_dist/
 
-FROM node:erbium-stretch-slim
+FROM node:erbium-buster-slim
 LABEL maintainer="robertsLando"
 COPY --from=build /home/node/zwavejs2mqtt/my_dist /usr/src/app
 WORKDIR /usr/src/app
