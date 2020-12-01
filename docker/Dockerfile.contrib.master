@@ -2,11 +2,15 @@ FROM node:erbium-buster AS build
 USER root
 RUN apt-get update && apt-get install -y jq
 RUN mkdir -p /usr/local/lib/node_modules && chown node /usr/local/lib/node_modules
-ARG Z2M_BRANCH master
-ARG ZWJS_BRANCH master
 
+ARG Z2M_BRANCH=master
+ARG ZWJS_BRANCH=master
+
+RUN echo "Cloning node-zwave-js from $ZWJS_BRANCH"
 RUN git clone -b ${ZWJS_BRANCH} https://github.com/zwave-js/node-zwave-js.git /home/node/node-zwave-js
 RUN chown node:node -R /home/node/node-zwave-js
+
+RUN echo "Cloning zwavejs2mqtt from $Z2M_BRANCH"
 RUN git clone -b ${Z2M_BRANCH} https://github.com/zwave-js/zwavejs2mqtt.git /home/node/zwavejs2mqtt
 RUN chown node:node -R /home/node/zwavejs2mqtt
 
@@ -37,6 +41,7 @@ RUN cp -Lr app.js package.json bin config dist hass lib public store views node_
 FROM node:erbium-buster-slim
 LABEL maintainer="robertsLando"
 COPY --from=build /home/node/zwavejs2mqtt/my_dist /usr/src/app
+
 WORKDIR /usr/src/app
 EXPOSE 8091
 USER root
